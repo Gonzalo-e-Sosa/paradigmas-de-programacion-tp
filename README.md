@@ -46,3 +46,33 @@ Definir, dentro de un batallón, quién conviene que ataque, o quién conviene q
 Algunas referencias:
 [Prolog en Java](https://jpl7.org/TutorialJavaCallsProlog)
 [Integración con prolog](https://github.com/SWI-Prolog/packages-jpl/blob/a6a3617d17cde587ee0946c108d92cae8b1627d0/src/test/java/org/jpl7/standalone/Family.java)
+
+Por ejemplo, el siguiente conjunto de hechos y reglas se debería generar de acuerdo al estado de la batalla, para luego consultar si puede o no usar el hechizo:
+
+% Hechos
+hechizo(expecto_patronum).
+energia_suficiente(harry_potter).
+varita_sauco_disponible.
+
+% Regla compleja
+puede_usar_hechizo(harry_potter, expecto_patronum) :-
+    energia_suficiente(harry_potter),
+    \+ esta_herido(harry_potter),
+    varita_sauco_disponible.
+
+6. Polimorfismo y Herencia
+Crear una jerarquía de personajes con atributos y métodos comunes en la clase base Personaje, pero con comportamientos diferenciados en sus subclases (por ejemplo, el método lanzarHechizo() podría tener diferentes efectos dependiendo si es un mago o un mortífago).
+
+7. Reglas de la Batalla
+Los magos y mortífagos se turnarán para lanzar hechizos.
+Cada personaje tiene un turno en el que puede lanzar un hechizo, protegerse o usar un objeto mágico (*).
+Cuando los puntos de vida de un personaje lleguen a cero, este es eliminado del combate.
+
+8. Pruebas
+Crear una batería de pruebas unitarias para los hechizos, personajes y la lógica de las batallas.
+Utilizar JUnit para esto, y validar que los hechizos se ejecuten correctamente, que los personajes pierdan vida según el hechizo recibido, y que las colecciones de personajes y hechizos funcionen adecuadamente.
+
+9. Bonus (*)
+Añadir elementos como pociones u objetos mágicos que podrían tener efectos temporales o permanentes en los personajes.
+
+(*) Los objetos mágicos son opcionales. Sin embargo, sirven para compensar alguna otra funcionalidad que no haya quedado terminada completamente.

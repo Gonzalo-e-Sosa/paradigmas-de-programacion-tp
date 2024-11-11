@@ -1,4 +1,4 @@
-package clases;
+package clase;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,26 +16,32 @@ public class Batallon {
         personajes.add(personaje);
     }
 
-    public boolean tienePersonajesSaludables() {
+    public void removerPersonaje(Personaje personaje) {
+        personajes.remove(personaje);
+    }
+
+    public boolean estaVivo() {
+        // Si al menos un personaje tiene puntos de vida, el batallón sigue en combate
         return personajes.stream().anyMatch(p -> p.getPuntosDeVida() > 0);
     }
 
     public void atacar(Batallon batallonEnemigo) {
         Random random = new Random();
-        
+
         for (Personaje atacante : personajes) {
-            if (atacante.getPuntosDeVida() <= 0) continue; // Salta personajes debilitados
-            
-            // Seleccionar un personaje enemigo aleatorio que esté saludable
+            if (atacante.getPuntosDeVida() <= 0) continue; // Ignora personajes sin vida
+
+            // Selecciona un objetivo enemigo al azar que esté saludable
             List<Personaje> enemigosSaludables = batallonEnemigo.obtenerPersonajesSaludables();
-            if (enemigosSaludables.isEmpty()) return;
-            
+            if (enemigosSaludables.isEmpty()) return; // No hay enemigos vivos, fin de ataque
+
             Personaje objetivo = enemigosSaludables.get(random.nextInt(enemigosSaludables.size()));
-            atacante.lanzarHechizo(objetivo); // Lanza un hechizo contra el objetivo
+            atacante.lanzarHechizo(objetivo); // Ataca al objetivo
+            System.out.println(atacante.getNombre() + " atacó a " + objetivo.getNombre());
         }
     }
 
-    public List<Personaje> obtenerPersonajesSaludables() {
+    private List<Personaje> obtenerPersonajesSaludables() {
         return personajes.stream().filter(p -> p.getPuntosDeVida() > 0).toList();
     }
 }

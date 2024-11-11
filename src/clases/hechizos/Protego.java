@@ -16,5 +16,9 @@ public class Protego implements Hechizo{
 		lanzador.restarEnergia(costo);
 		System.out.println("El personaje objetivo " + objetivo.getNombre() + ", ha sido protegido por " + lanzador.getNombre() + ".");
 	}
-
+	
+	@Override
+	public boolean esOfensivo() {
+		return false;
+	}
 }

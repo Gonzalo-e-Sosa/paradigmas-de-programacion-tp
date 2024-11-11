@@ -18,4 +18,9 @@ public class AvadaKedavra implements Hechizo{
 		System.out.println("El personaje " + objetivo.getNombre() + ", ha sido atacado por " + lanzador.getNombre() + "!");
 		System.out.println("A" + objetivo.getNombre() + " solo le queda: " + objetivo.getPuntosDeVida() + " de vida!");
 	}
+	
+	@Override
+	public boolean esOfensivo() {
+		return true;
+	}
 }

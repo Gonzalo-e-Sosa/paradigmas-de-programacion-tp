@@ -15,5 +15,10 @@ public class Expelliarmus implements Hechizo {
 		lanzador.restarEnergia(costo);
 		System.out.println("El personaje objetivo " + objetivo.getNombre() + ", ha sido desarmado por " + lanzador.getNombre() + ".");
 	}
+	
+	@Override
+	public boolean esOfensivo() {	
+		return true;
+	}
 
 }

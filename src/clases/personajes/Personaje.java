@@ -12,6 +12,7 @@ public abstract class Personaje implements Unidad{
 	private double puntosDeVidaMax;
 	private double puntosDeVida;
 	private int nivelDeMagia;
+	private int energiaMax;
 	private int energia;
 	private double multiplicadorDeHechizo;
 	private ArrayList<Hechizo> hechizos;
@@ -21,36 +22,36 @@ public abstract class Personaje implements Unidad{
 		this.puntosDeVidaMax = puntosDeVida;
 		this.puntosDeVida = puntosDeVida;
 		this.nivelDeMagia = nivelDeMagia;
+		this.energiaMax = energia;
 		this.energia = energia;
 		this.multiplicadorDeHechizo = multiplicadorDeHechizo;
 		this.hechizos = new ArrayList<>();
 	}
-
-	public void lanzarHechizo(Personaje objetivo) {
-	    if (hechizos.isEmpty()) {
+	
+	@Override
+	public void atacar(Unidad objetivo) {
+		//Simular ataque
+		if (hechizos.isEmpty()) {
 	        System.out.println(nombre + " no tiene hechizos para lanzar.");
 	        return;
 	    }
-	    
+
 	    // Selecciona un hechizo aleatorio de la lista
 	    Random random = new Random();
-	    Hechizo hechizoSeleccionado = hechizos.get(random.nextInt(hechizos.size()));
+	    int indice;
+	    do {
+	    	indice = random.nextInt(hechizos.size());
+	    }while(!(hechizos.get(indice).esOfensivo()));
 	    
-	    // Ejecuta el hechizo sobre el objetivo
-	    hechizoSeleccionado.ejecutar(this, objetivo);
-	    System.out.println(nombre + " lanza " + hechizoSeleccionado.getClass().getSimpleName() + " a " + objetivo.getNombre());
-		
-	}
-	
-	public void atacar(Unidad objetivo) {
-		//Simular ataque
-		if(!hechizos.isEmpty()) {
-			Hechizo hechizo = hechizos.get(0); // selecciona el primero
-            if (objetivo instanceof Personaje) {
-                Personaje enemigo = (Personaje) objetivo;
-                hechizo.ejecutar(this, enemigo);
-            }
-		}
+		Hechizo hechizoSeleccionado = hechizos.get(indice);
+	    		
+	    if (objetivo instanceof Personaje) {
+	    	Personaje enemigo = (Personaje) objetivo;
+	    	
+	    	// Ejecuta el hechizo sobre el objetivo
+	    	hechizoSeleccionado.ejecutar(this, enemigo);
+	    	System.out.println(nombre + " lanza " + hechizoSeleccionado.getClass().getSimpleName() + " a " + enemigo.getNombre());
+	    }		
 	}
 	
 	@Override
@@ -82,7 +83,7 @@ public abstract class Personaje implements Unidad{
 	}
 
 	public void sumarEnergia(int energia) {
-		if(energia < 0)
+		if(energia <= 0)
 			throw new Error("Energía debe ser un valor positivo.");
 		this.energia += energia;
 	}

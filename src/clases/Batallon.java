@@ -4,38 +4,45 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import clases.personajes.Personaje;
+import interfaces.Unidad;
 
-public class Batallon {
-    private List<Personaje> personajes;
+public class Batallon implements Unidad{
+    private List<Unidad> miembros;
 
     public Batallon() {
-        this.personajes = new ArrayList<>();
+        this.miembros= new ArrayList<>();
     }
 
-    public void agregarPersonaje(Personaje personaje) {
-        personajes.add(personaje);
+    public void agregarUnidad(Unidad unidad) {
+        miembros.add(unidad);
     }
-
-    public boolean tienePersonajesSaludables() {
-        return personajes.stream().anyMatch(p -> p.getPuntosDeVida() > 0);
+    
+    public void removerUnidad(Unidad unidad) {
+        miembros.remove(unidad);
     }
-
-    public void atacar(Batallon batallonEnemigo) {
-        Random random = new Random();
-        
-        for (Personaje atacante : personajes) {
-            if (atacante.getPuntosDeVida() <= 0) continue; // Salta personajes debilitados
-            
-            // Seleccionar un personaje enemigo aleatorio que esté saludable
-            List<Personaje> enemigosSaludables = batallonEnemigo.obtenerPersonajesSaludables();
-            if (enemigosSaludables.isEmpty()) return;
-            
-            Personaje objetivo = enemigosSaludables.get(random.nextInt(enemigosSaludables.size()));
-            atacante.lanzarHechizo(objetivo); // Lanza un hechizo contra el objetivo
+    
+    @Override
+    public void atacar(Unidad objetivo) {
+        // Todos los miembros atacan al objetivo
+        for (Unidad miembro : miembros) {
+            if (miembro.estaVivo()) {
+                miembro.atacar(objetivo);
+            }
         }
     }
 
-    public List<Personaje> obtenerPersonajesSaludables() {
-        return personajes.stream().filter(p -> p.getPuntosDeVida() > 0).toList();
+    @Override
+    public boolean estaVivo() {
+        // Si al menos un miembro está vivo, el batallón sigue en combate
+        for (Unidad miembro : miembros) {
+            if (miembro.estaVivo()) {
+                return true;
+            }
+        }
+        return false;
     }
+
+	public boolean tienePersonajesSaludables() {
+		return estaVivo();
+	}
 }

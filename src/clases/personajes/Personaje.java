@@ -9,14 +9,20 @@ import interfaces.Hechizo;
 
 public abstract class Personaje implements Unidad{	
 	private String nombre;
+	private double puntosDeVidaMax;
 	private double puntosDeVida;
 	private int nivelDeMagia;
+	private int energia;
+	private double multiplicadorDeHechizo;
 	private ArrayList<Hechizo> hechizos;
 	
-	public Personaje(String nombre, double puntosDeVida, int nivelDeMagia) {
+	public Personaje(String nombre, double puntosDeVida, int nivelDeMagia, int energia, double multiplicadorDeHechizo) {
 		this.nombre = nombre;
+		this.puntosDeVidaMax = puntosDeVida;
 		this.puntosDeVida = puntosDeVida;
 		this.nivelDeMagia = nivelDeMagia;
+		this.energia = energia;
+		this.multiplicadorDeHechizo = multiplicadorDeHechizo;
 		this.hechizos = new ArrayList<>();
 	}
 
@@ -64,11 +70,52 @@ public abstract class Personaje implements Unidad{
 		return nivelDeMagia;
 	}
 
+	public int getEnergia() {
+		return energia;
+	}
+	
+	public void setEnergia(int energia) {
+		if(energia<= 0)
+			throw new Error("Enegia debe ser un valor positivo.");
+			
+		this.energia = energia;
+	}
+
+	public void sumarEnergia(int energia) {
+		if(energia < 0)
+			throw new Error("Energía debe ser un valor positivo.");
+		this.energia += energia;
+	}
+	
+	public void restarEnergia(int energia) {
+		this.energia -= Math.abs(energia);
+	}
+	
+	
+	public void sumarPuntosDeVida(int puntosDeVida) {
+		if(puntosDeVida <= 0)
+			throw new Error("Puntos de vida debe ser positivo.");
+			
+		if(this.puntosDeVida + puntosDeVida > this.puntosDeVidaMax) {
+			this.puntosDeVida = this.puntosDeVidaMax;
+		}else {			
+			this.puntosDeVida += puntosDeVida;
+		}
+	}
+
+	public void restarPuntosDeVida(double puntosDeVida) {
+		this.puntosDeVida -= Math.abs(puntosDeVida);
+	}
+
+	public double getmultiplicadorDeHechizo() {
+		return this.multiplicadorDeHechizo;
+	}
+	
 	public ArrayList<Hechizo> getHechizos() {
 		return hechizos;
 	}
 	
 	public void agregarHechizo(Hechizo hechizo) {
-        hechizos.add(hechizo);
-    }
+		hechizos.add(hechizo);
+	}
 }

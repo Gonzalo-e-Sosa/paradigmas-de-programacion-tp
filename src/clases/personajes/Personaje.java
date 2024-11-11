@@ -1,6 +1,7 @@
 package clases.personajes;
 
 import java.util.ArrayList;
+
 import java.util.Random;
 
 import interfaces.Unidad;
@@ -44,6 +45,12 @@ public abstract class Personaje implements Unidad{
 	    }while(!(hechizos.get(indice).esOfensivo()));
 	    
 		Hechizo hechizoSeleccionado = hechizos.get(indice);
+		
+        // Verificar si el personaje tiene el nivel necesario para lanzar el hechizo
+        if (nivelDeMagia < Hechizo.NIVEL_REQUERIDO) {
+            System.out.println(nombre + " no tiene el nivel suficiente para lanzar " + hechizoSeleccionado.getClass().getSimpleName() + ".");
+            return; // No lanzar el hechizo si no tiene el nivel adecuado
+        }
 	    		
 	    if (objetivo instanceof Personaje) {
 	    	Personaje enemigo = (Personaje) objetivo;
@@ -86,6 +93,9 @@ public abstract class Personaje implements Unidad{
 		if(energia <= 0)
 			throw new Error("Energía debe ser un valor positivo.");
 		this.energia += energia;
+	    if (this.energia > energiaMax) {
+	        this.energia = energiaMax;  // Aseguramos que la energía no exceda el máximo
+	    }
 	}
 	
 	public void restarEnergia(int energia) {
@@ -118,5 +128,7 @@ public abstract class Personaje implements Unidad{
 	
 	public void agregarHechizo(Hechizo hechizo) {
 		hechizos.add(hechizo);
+		System.out.println("Hechizo " + hechizo.getClass().getSimpleName() + " agregado a " + nombre);
 	}
+			
 }

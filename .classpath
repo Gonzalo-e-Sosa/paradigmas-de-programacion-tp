@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="src" path="TrabajoFinal/src"/>
+	<classpathentry kind="src" path="TpFinal/src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/5"/>
-	<classpathentry kind="lib" path="C:/Program Files/swipl/lib/jpl.jar"/>
-	<classpathentry kind="output" path="TrabajoFinal/build/classes"/>
+	<classpathentry kind="output" path="TpFinal/bin"/>
 </classpath>
